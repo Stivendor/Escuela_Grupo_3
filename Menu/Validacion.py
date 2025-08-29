@@ -2,7 +2,7 @@
 class Validacion:
 
     @staticmethod
-    def leer_entero(mensaje, minimo=None, maximo=None):
+    def leer_entero(mensaje, minimo=1, maximo=110):
         while True:
             try:
                 valor = int(input(mensaje))
@@ -17,7 +17,7 @@ class Validacion:
                 print(" Debes ingresar un número válido.")
 
     @staticmethod
-    def leer_flotante(mensaje, minimo=None, maximo=None):
+    def leer_flotante(mensaje, minimo=1.0, maximo=5.0):
         while True:
             try:
                 valor = float(input(mensaje))
@@ -36,8 +36,8 @@ class Validacion:
         while True:
             valor = input(mensaje).strip()
             if valor == "":
-                print("⚠️ No puedes dejar este campo vacío.")
+                print(" No puedes dejar este campo vacío.")
             elif any(char.isdigit() for char in valor):
-                print("⚠️ El nombre no debe contener números.")
+                print(" El nombre no debe contener números.")
             else:
                 return valor
