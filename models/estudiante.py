@@ -1,29 +1,20 @@
 from .persona import Persona
 
-class Estudiante:
-    def __init__(self, matricula: str, nombre: str):
+class Estudiante(Persona):
+    def __init__(self, nombre: str, edad: int, matricula: str):
+        super().__init__(nombre, edad)
         self.__matricula = matricula
-        self.__nombre = nombre
         self.notas = {}  # {materia: [lista de notas]}
-
-    def get_matricula(self) -> str:
+    
+    def get_matricula(self):
         return self.__matricula
 
-    def get_nombre(self) -> str:
-        return self.__nombre
-
+    # Agregar una nota para una materia específica
     def agregar_nota(self, materia: str, nota: float):
-        if materia not in self.notas:
-            self.notas[materia] = []
-        self.notas[materia].append(nota)
+        lista_notas = self.notas.get(materia, [])
+        lista_notas.append(nota)
+        self.notas[materia] = lista_notas
 
-    def calcular_promedio(self):
-        total_notas = 0
-        cantidad_notas = 0
-        for notas_materia in self.notas.values():
-            total_notas += sum(notas_materia)
-            cantidad_notas += len(notas_materia)
-        if cantidad_notas == 0:
-            return None
-        return total_notas / cantidad_notas
 
+    def presentarse(self):
+        return f"Soy {self.get_nombre()}, estudiante con matrícula {self.__matricula}."
