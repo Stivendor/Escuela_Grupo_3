@@ -3,42 +3,45 @@
     - Calcular el promedio de notas para un estudiante.
     - Mostrar reportes de notas
 """
+from models.estudiante import Estudiante
+from models.materia import Materia
+
 class GestionNotas:
     def __init__(self):
-        self.notas = {}  # Diccionario para almacenar notas por estudiante y materia
+        self.materias = {}  # clave: código materia, valor: objeto Materia
 
-    def registrar_nota(self, estudiante_id: str, materia: str, nota: float) -> None:
-        """Registra una nota para un estudiante en una materia específica."""
-        self.notas.setdefault(estudiante_id, {}).setdefault(materia, []).append(nota)
+    def registrar_materia(self, nombre: str, codigo: str, profesor=None):
+        if codigo in self.materias:
+            print(f"Ya existe una materia con código {codigo}.")
+            return
+        materia = Materia(nombre, codigo, profesor)
+        self.materias[codigo] = materia
+        print(f"Materia {nombre} registrada con código {codigo}.")
 
-    def calcular_promedio(self, estudiante_id: str) -> float:
-        """Calcula el promedio de notas para un estudiante."""
-        materias = self.notas.get(estudiante_id, {})
-        total_notas = sum(sum(notas) for notas in materias.values())
-        cantidad_notas = sum(len(notas) for notas in materias.values())
-        return total_notas / cantidad_notas if cantidad_notas > 0 else 0.0
+    def inscribir_estudiante(self, codigo: str, estudiante: Estudiante):
+        materia = self.materias.get(codigo)
+        if materia:
+            materia.agregar_estudiante(estudiante)
+            print(f"Estudiante {estudiante.get_nombre()} inscrito en {materia.get_nombre()}.")
+        else:
+            print(f"No existe la materia con código {codigo}.")
 
-    def mostrar_reporte(self, estudiante_id: str) -> str:
-        """Muestra un reporte de notas para un estudiante."""
-        if estudiante_id not in self.notas:
-            return "No hay notas registradas para este estudiante."
-        reporte = f"Reporte de notas para el estudiante {estudiante_id}:\n"
-        for materia, notas in self.notas[estudiante_id].items():
-            promedio_materia = sum(notas) / len(notas) if notas else 0.0
-            reporte += f" Materia: {materia} - Notas: {notas} - Promedio: {promedio_materia:.2f}\n"
-        promedio_general = self.calcular_promedio(estudiante_id)
-        reporte += f"Promedio General: {promedio_general:.2f}\n"
-        return reporte
+    def registrar_nota(self, estudiante: Estudiante, materia: str, nota: float):
+        estudiante.agregar_nota(materia, nota)
+        print(f"Nota {nota} registrada para {estudiante.get_nombre()} en {materia}.")
 
-# Ejemplo de uso
-if __name__ == "__main__":
-    gestion_notas = GestionNotas()
-    gestion_notas.registrar_nota("estudiante1", "Matemáticas", 5)
-    gestion_notas.registrar_nota("estudiante2", "Matemáticas", 4)
-    gestion_notas.registrar_nota("estudiante1", "Historia", 2)
-    gestion_notas.registrar_nota("estudiante1", "Historia", 5)
+    def calcular_promedio(self, estudiante: Estudiante):
+        if not estudiante.notas:
+            print(f"{estudiante.get_nombre()} no tiene notas registradas.")
+            return 0
+        promedio = sum(estudiante.notas.values()) / len(estudiante.notas)
+        print(f"El promedio de {estudiante.get_nombre()} es {promedio:.2f}.")
+        return promedio
 
-    print(gestion_notas.mostrar_reporte("estudiante1"))
-    print(gestion_notas.mostrar_reporte("estudiante2"))
-
-
+    def reporte_estudiante(self, estudiante: Estudiante):
+        if not estudiante.notas:
+            print(f"{estudiante.get_nombre()} no tiene notas registradas.")
+            return
+        print(f"Notas de {estudiante.get_nombre()}:")
+        for materia, nota in estudiante.notas.items():
+            print(f"- {materia}: {nota}")
