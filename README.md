@@ -63,7 +63,7 @@ escuela/
 
 2. Ejecutar el programa:
    ```bash
-   python main.py
+   py main.py
    ```
 
 3. Seguir las instrucciones del menú en consola.
