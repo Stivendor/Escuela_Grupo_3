@@ -57,7 +57,7 @@ escuela/
 
 1. Clonar el repositorio:
    ```bash
-   git clone https://github.com/usuario/Escuela.git
+   git clone https://github.com/Stivendor/Escuela_Grupo_3.git
    cd escuela
    ```
 
@@ -108,12 +108,10 @@ escuela/
 - Implementar en `main.py`:
   - Menú interactivo en consola con opciones:
     1. Registrar estudiante.
-    2. Registrar profesor.
-    3. Registrar materia.
-    4. Registrar nota a estudiante.
-    5. Calcular promedio de un estudiante.
-    6. Listar estudiantes.
-    7. Salir.
+    2. Registrar nota.
+    3. Calcular promedio.
+    4. Listar estudiantes.
+    5. Salir.
   - Llamar las funciones de `services` según la opción elegida.
 
 ---
@@ -132,13 +130,11 @@ Ejemplo esperado:
 
 ```text
 ===== MENÚ ESCUELA =====
-1. Registrar estudiante
-2. Registrar profesor
-3. Registrar materia
-4. Registrar nota a estudiante
-5. Calcular promedio de un estudiante
-6. Listar estudiantes
-7. Salir
+1. Registrar estudiante.
+2. Registrar nota.
+3. Calcular promedio.
+4. Listar estudiantes.
+5. Salir.
 Seleccione una opción: _
 ```
 
@@ -146,9 +142,9 @@ Seleccione una opción: _
 
 ## ✅ Checklist de evaluación
 
-- [ ] Uso correcto de POO (herencia, polimorfismo, encapsulamiento).  
-- [ ] Implementación de menú de consola.  
-- [ ] Gestión de estudiantes, profesores y materias.  
-- [ ] Registro de notas y promedios.  
-- [ ] Flujo en Git/GitHub con ramas protegidas y PRs.  
-- [ ] README completo y bien documentado.  
+- [✅] Uso correcto de POO (herencia, polimorfismo, encapsulamiento).  
+- [✅] Implementación de menú de consola.  
+- [✅] Gestión de estudiantes y notas.  
+- [✅] Registro de notas y promedios.  
+- [✅] Flujo en Git/GitHub con ramas protegidas y PRs.  
+- [✅] README completo y bien documentado.  
