@@ -6,9 +6,8 @@ class Materia:
         self.__nombre = nombre
         self.__codigo = codigo
         self.__profesor = profesor
-        self.__estudiantes = [] #lista de objetos de estudiante
+        self.__estudiantes = []  # lista de objetos Estudiante
 
-    #getters y setters
     def get_nombre(self):
         return self.__nombre
     
@@ -29,19 +28,17 @@ class Materia:
 
     def get_estudiantes(self):
         return self.__estudiantes
-    
-    #Metodos
 
     def agregar_estudiante(self, estudiante: Estudiante):
         if estudiante not in self.__estudiantes:
             self.__estudiantes.append(estudiante)
         else:
-            print(f"El estudiante {estudiante.get_nombre()} ya esta inscrito en {self.__nombre}.")
-    
+            print(f"El estudiante {estudiante.get_nombre()} ya está inscrito en {self.__nombre}.")
+
     def listar_estudiante(self):
         if not self.__estudiantes:
             print(f"No hay estudiantes inscritos en {self.__nombre}.")
         else:
             print(f"Estudiantes inscritos en {self.__nombre}:")
             for estudiante in self.__estudiantes:
-                print(f"- {estudiante.get_nombre()} (Matricula: {estudiante.get_matricula()})")
+                print(f"- {estudiante.get_nombre()} (Matrícula: {estudiante.get_matricula()})")

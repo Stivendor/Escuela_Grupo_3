@@ -3,9 +3,10 @@
     - Mostrar lista de estudiantes.
 """
 from models.estudiante import Estudiante
+
 class GestionEstudiantes:
     def __init__(self):
-        self.estudiantes = {}  # clave: matrícula, valor: objeto Estudiante
+        self.estudiantes = {}
 
     def registrar_estudiante(self, nombre: str, edad: int, matricula: str):
         if matricula in self.estudiantes:
