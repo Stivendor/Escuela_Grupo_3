@@ -27,22 +27,3 @@ class Materia(Base):
         secondary=materia_estudiante,
         backref="materias"
     )
-
-    def __init__(self, nombre: str, codigo: str, profesor=None):
-        self.nombre = nombre
-        self.codigo = codigo
-        self.profesor = profesor
-
-    def agregar_estudiante(self, estudiante):
-        if estudiante not in self.estudiantes:
-            self.estudiantes.append(estudiante)
-        else:
-            print(f"El estudiante {estudiante.nombre} ya está inscrito en {self.nombre}.")
-
-    def listar_estudiantes(self):
-        if not self.estudiantes:
-            print(f"No hay estudiantes inscritos en {self.nombre}.")
-        else:
-            print(f"Estudiantes inscritos en {self.nombre}:")
-            for estudiante in self.estudiantes:
-                print(f"- {estudiante.nombre} (Matrícula: {estudiante.matricula})")

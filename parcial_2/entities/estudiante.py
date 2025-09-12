@@ -11,14 +11,3 @@ class Estudiante(Persona):
 
     # Relación opcional si quieres que SQLAlchemy maneje la unión
     persona = relationship("Persona", backref="estudiante", uselist=False)
-
-    def __init__(self, nombre: str, edad: int, matricula: str):
-        super().__init__(nombre, edad)
-        self.matricula = matricula
-        self.notas = {}  #esto es un diccionario en memoria, no se guarda en la BD
-
-    def agregar_nota(self, materia: str, nota: float):
-        self.notas[materia] = nota
-
-    def presentarse(self):
-        return f"Soy {self.nombre}, estudiante con matrícula {self.matricula}."
