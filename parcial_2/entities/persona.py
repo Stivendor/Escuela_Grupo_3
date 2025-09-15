@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from database import Base
+from database.config import Base
 
 class Persona(Base):
     __tablename__ = "personas"  # Nombre de la tabla en la BD
