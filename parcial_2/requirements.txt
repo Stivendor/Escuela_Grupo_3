@@ -1,0 +1,20 @@
+# Requisitos para el Curso de Programación de Software
+# ITM 2025-2 - Docente: Alejandro Salgar Marín
+
+# Python 3.x (versión mínima recomendada: 3.8)
+# No se requieren paquetes externos para los módulos básicos
+py -m pip install -r requirements.txt
+# Para el módulo de persistencia (opcional):
+# PyYAML>=6.0
+# python-dotenv>=0.19.0
+
+# Para desarrollo (opcional):
+# pytest>=6.0
+# black>=21.0
+# flake8>=3.8
+
+sqlalchemy==2.0.23
+psycopg2-binary==2.9.9
+asyncpg==0.29.0
+alembic==1.13.1
+python-dotenv==1.0.0
