@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Table
 from sqlalchemy.orm import relationship
-from database import Base
+from database.config import Base
 
 grupo_estudiante = Table(
     "grupo_estudiante",
@@ -12,10 +12,10 @@ grupo_estudiante = Table(
 class Grupo(Base):
     __tablename__ = "grupos"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    nombre = Column(String(50), nulleable=False)
+    nombre = Column(String(50), nullable=False)
 
-    materia_id = Column(Integer, ForeignKey("materias.id"), nulleable=False)
-    profesor_id = Column(Integer, ForeignKey("profesores.id"), nulleable=False)
+    materia_id = Column(Integer, ForeignKey("materias.id"), nullable=False)
+    profesor_id = Column(Integer, ForeignKey("profesores.id"), nullable=False)
 
     #Relaciones
     materia = relationship("Materia", backref="grupos")
