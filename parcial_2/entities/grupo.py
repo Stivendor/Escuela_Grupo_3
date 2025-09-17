@@ -1,23 +1,54 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Table
-from sqlalchemy.orm import relationship
-from database import Base
+import uuid
 
+from database.config import Base
+from sqlalchemy import Column, DateTime, ForeignKey, String, Table
+from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
+
+
+# Tabla intermedia para relación muchos a muchos entre Grupo y Estudiante
 grupo_estudiante = Table(
     "grupo_estudiante",
     Base.metadata,
-    Column("grupo_id", Integer, ForeignKey("grupos.id"), primary_key=True),
-    Column("estudiante_id", Integer, ForeignKey("estudiantes.id"), primary_key=True)
+    Column("grupo_id", UUID(as_uuid=True), ForeignKey("grupos.id_grupo"), primary_key=True),
+    Column("estudiante_id", UUID(as_uuid=True), ForeignKey("estudiantes.id_estudiante"), primary_key=True),
 )
+
 
 class Grupo(Base):
     __tablename__ = "grupos"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    nombre = Column(String(50), nulleable=False)
 
-    materia_id = Column(Integer, ForeignKey("materias.id"), nulleable=False)
-    profesor_id = Column(Integer, ForeignKey("profesores.id"), nulleable=False)
+    id_grupo = Column(
+        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True
+    )
+    nombre = Column(String(50), nullable=False)
+    fecha_creacion = Column(DateTime(timezone=True), server_default=func.now())
+    fecha_edicion = Column(DateTime(timezone=True), onupdate=func.now())
 
-    #Relaciones
+    # Claves foráneas
+    materia_id = Column(
+        UUID(as_uuid=True), ForeignKey("materias.id_materia"), nullable=False
+    )
+    profesor_id = Column(
+        UUID(as_uuid=True), ForeignKey("profesores.id_profesor"), nullable=False
+    )
+
+    # Relaciones
     materia = relationship("Materia", backref="grupos")
     profesor = relationship("Profesor", backref="grupos")
-    estudiantes = relationship("Estudiante", secondary=grupo_estudiante, backref="grupos")
+    estudiantes = relationship(
+        "Estudiante",
+        secondary=grupo_estudiante,
+        backref="grupos",
+    )
+
+    def __repr__(self):
+        return f"<Grupo(id_grupo={self.id_grupo}, nombre='{self.nombre}')>"
+    
+    periodo_id = Column(
+    UUID(as_uuid=True), ForeignKey("periodos.id_periodo"), nullable=False
+    )
+
+    periodo = relationship("Periodo", back_populates="grupos")
+

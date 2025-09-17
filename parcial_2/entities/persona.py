@@ -1,9 +1,38 @@
-from sqlalchemy import Column, Integer, String
-from database import Base
+import uuid
+
+from database.config import Base
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
+from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
+
 
 class Persona(Base):
-    __tablename__ = "personas"  # Nombre de la tabla en la BD
+    __tablename__ = "personas"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id_persona = Column(
+        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True
+    )
     nombre = Column(String(100), nullable=False)
     edad = Column(Integer, nullable=False)
+    fecha_creacion = Column(DateTime(timezone=True), server_default=func.now())
+    fecha_edicion = Column(DateTime(timezone=True), onupdate=func.now())
+
+    # (Opcional) Campos de auditoría
+    id_usuario_crea = Column(
+        UUID(as_uuid=True), ForeignKey("usuarios.id_usuario"), nullable=True
+    )
+    id_usuario_edita = Column(
+        UUID(as_uuid=True), ForeignKey("usuarios.id_usuario"), nullable=True
+    )
+
+    # Relaciones de auditoría (opcional)
+    usuario_crea = relationship(
+        "Usuario", foreign_keys=[id_usuario_crea], overlaps="usuario_edita"
+    )
+    usuario_edita = relationship(
+        "Usuario", foreign_keys=[id_usuario_edita], overlaps="usuario_crea"
+    )
+
+    def __repr__(self):
+        return f"<Persona(id_persona={self.id_persona}, nombre='{self.nombre}', edad={self.edad})>"

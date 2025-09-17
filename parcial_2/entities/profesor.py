@@ -1,10 +1,27 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+import uuid
+
+from database.config import Base
+from sqlalchemy import Column, DateTime, ForeignKey, String
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
-from database import Base
+from sqlalchemy.sql import func
 from entities.persona import Persona
+
 
 class Profesor(Persona):
     __tablename__ = "profesores"
 
-    id = Column(Integer, ForeignKey("personas.id"), primary_key=True)
+    id_profesor = Column(
+        UUID(as_uuid=True),
+        ForeignKey("personas.id_persona"),
+        primary_key=True,
+    )
     especialidad = Column(String(50), nullable=False)
+    fecha_creacion = Column(DateTime(timezone=True), server_default=func.now())
+    fecha_edicion = Column(DateTime(timezone=True), onupdate=func.now())
+
+    # Relación con Persona (uno a uno)
+    persona = relationship("Persona", backref="profesor", uselist=False)
+
+    def __repr__(self):
+        return f"<Profesor(id_profesor={self.id_profesor}, especialidad='{self.especialidad}')>"
